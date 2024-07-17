@@ -80,7 +80,7 @@ const Form = () => {
           </select>
         </div>
 
-        <div className="flex gap-2 capitalise text-white font-semibold">
+        <div className="flex gap-2 capitalise text-white font-semibold items-center">
           <input type="checkbox" id="alcohol"
           checked={filters.alcohol? false : true}
           onChange={() => setFilters({...filters, alcohol: !filters.alcohol})}/>
