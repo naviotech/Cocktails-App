@@ -12,9 +12,9 @@ function Home() {
           <Form/>
         </article>
       </header>
-      <main className="mt-10 flex flex-col justify-center items-center">
-        <section className=" w-full px-6 py-10 lg:px-12 flex flex-col justify-center items-center max-w-screen-xl">
-          <h1 className="text-center font-bold text-3xl mb-12 sm:mb-24">Drinks</h1>
+      <main className="mt-10 flex flex-col justify-center items-center" id="main">
+        <section className="relative w-full px-6 py-10 lg:px-12 flex flex-col justify-center items-center max-w-screen-xl">
+          <h1 className="text-center font-bold text-3xl mb-12 sm:mb-24" id="drinks">Drinks</h1>
           <Recipes/>
         </section>
       </main>

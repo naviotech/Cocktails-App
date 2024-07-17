@@ -3,6 +3,7 @@ import { useAppStore } from "../../../zustand/useAppStore"
 import { InfoRecipe } from "../../../types/appTypes"
 import Modal from "./Modal"
 import ModalInfo from "./ModalInfo"
+import Pagination from "./pagination/Pagination"
 
 const Recipes = () => {
   const recipes = useAppStore((state)=>state.recipes)
@@ -12,6 +13,20 @@ const Recipes = () => {
 
   const [selectItem, setSelectItem] = useState<InfoRecipe | null>(null)
   const [modal, setModal] = useState(false)
+
+  // Pagination
+    const [quantity] = useState(9)
+    const [currentPage, setCurrentPage] = useState(1)
+
+
+    const indexFin = currentPage * quantity
+    const indexInit = indexFin - quantity
+
+    const numberDates = recipes.slice(indexInit,indexFin)
+    const numberPages = Math.ceil(recipes.length / quantity)
+
+
+  //
 
   const handleClick = () => {
     setModal(!modal)
@@ -31,29 +46,38 @@ const Recipes = () => {
     }
   },[recipeInfoResponse])
   return (
-    <article className={ hasDrinks ? "flex flex-wrap gap-14 items-center justify-center max-w-screen-xl w-full sm:grid sm:grid-cols-2  lg:grid-cols-3 lg:gap-6" : "flex flex-col justyfy-center items-center w-full"}>
-      
+    <>
+      <article className={ hasDrinks ? "flex flex-wrap gap-14 items-center justify-center max-w-screen-xl w-full sm:grid sm:grid-cols-2  lg:grid-cols-3 lg:gap-6" : "flex flex-col justyfy-center items-center w-full"}>
+        
+        {hasDrinks ? (
+          <>
+            {numberDates.map((recipes)=>(
+              <article key={recipes.idDrink} className="border shadow-lg flex flex-col max-w-lg rounded-xl " >
+                <header className="overflow-hidden rounded-t-xl">
+                  <img src={recipes.strDrinkThumb} alt={`Image for ${recipes.strDrink}`} className="hover:scale-110 transition-transform"></img>
+                </header>
+                <main className="p-5">
+                  <h2 className="text-2xl truncate">{recipes.strDrink}</h2>
+                  <button onClick={()=>{recipeInfo(recipes.idDrink), handleClick()}} type="button" className="bg-orange-400 hover:bg-orange-500 mt-5 w-full p-3 font-bold text-white text-lg">Show Recipe</button>
+                </main>
+              </article>
+            ))}
+          </>
+        )
+        :(<p className="text-center text-2xl mt-8 w-full text-black/50">No recipes yet</p>)}
+        <div>
+          {modal && recipeInfoResponse && <Modal handleModal={handleModal} children={selectItem? <ModalInfo info={selectItem} handleClick={handleClick}/> : null} /> }
+        </div>
+      </article>
       {hasDrinks ? (
-        <>
-          {recipes.map((recipes)=>(
-            <article key={recipes.idDrink} className="border shadow-lg flex flex-col max-w-lg rounded-xl " >
-              <header className="overflow-hidden rounded-t-xl">
-                <img src={recipes.strDrinkThumb} alt={`Image for ${recipes.strDrink}`} className="hover:scale-110 transition-transform"></img>
-              </header>
-              <main className="p-5">
-                <h2 className="text-2xl truncate">{recipes.strDrink}</h2>
-                <button onClick={()=>{recipeInfo(recipes.idDrink), handleClick()}} type="button" className="bg-orange-400 hover:bg-orange-500 mt-5 w-full p-3 font-bold text-white text-lg">Show Recipe</button>
-              </main>
-            </article>
-          ))}
-        </>
-      )
-      :(<p className="text-center text-2xl mt-8 w-full text-black/50">No recipes yet</p>)}
-      <div>
-        {modal && recipeInfoResponse && <Modal handleModal={handleModal} children={selectItem? <ModalInfo info={selectItem} handleClick={handleClick}/> : null} /> }
-      </div>
-    </article>
-    
+        <Pagination
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+        numberPage={numberPages}
+        />
+      ): null}
+      
+    </>
   )
 }
 
