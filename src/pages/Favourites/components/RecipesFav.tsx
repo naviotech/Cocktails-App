@@ -33,7 +33,7 @@ const RecipesFav = () => {
   },[recipeInfoResponseFav])
 
   return (
-    <section className={ hasDrinks ? "flex flex-wrap gap-14 items-center justify-center max-w-screen-xl w-full sm:grid sm:grid-cols-2 xl:grid-cols-3 lg:gap-6" : "flex flex-col justyfy-center items-center w-full"}>
+    <section className={ hasDrinks ? "flex flex-wrap gap-14 items-center justify-center max-w-screen-xl w-full sm:grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-6" : "flex flex-col justyfy-center items-center w-full"}>
       {hasDrinks ? (
         <>
           {favorites.map((drink)=>(

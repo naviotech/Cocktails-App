@@ -1,6 +1,8 @@
 import type { InfoRecipe } from "../../../types/appTypes"
 import { useAppStore } from "../../../zustand/useAppStore"
 
+import { Store } from 'react-notifications-component'
+
 type ModalProps ={
   info: InfoRecipe,
   handleClick: (e: React.MouseEvent) => void
@@ -46,7 +48,25 @@ const ModalInfoFav = ({info, handleClick}: ModalProps) => {
           <p className="text-black/50">{info.strInstructions}</p>
         </div>
         <div className="mt-5 flex gap-4">
-          <button onClick={() => handleClickFav(recipeInfoResponse)} className={arrayFavorites.some(drink => drink.idDrink === info.idDrink)? "w-full rounded-xl bg-yellow-600 hover:bg-yellow-300 transition-colors font-bold text-white p-2 uppercase": "w-full rounded-xl bg-green-600 hover:bg-green-300 transition-colors font-bold text-white p-2 uppercase" }>{arrayFavorites.some(drink => drink.idDrink === info.idDrink)? "Delete Favorites" : "Add Favorites"}</button>
+          <button onClick={() => {
+            handleClickFav(recipeInfoResponse)
+            const notificationMessage = arrayFavorites.some(drink => drink.idDrink === info.idDrink) ? "The item has been removed to favorites." : "The item has been added to favorites."
+            const notificationType = arrayFavorites.some(drink => drink.idDrink === info.idDrink) ? "danger" : "success"
+            const notificationTitle = arrayFavorites.some(drink => drink.idDrink === info.idDrink) ? "Deleted" : "Added"
+            Store.addNotification({
+              title: notificationTitle,
+              message: notificationMessage,
+              type: notificationType,
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animate__animated", "animate__fadeIn"],
+              animationOut: ["animate__animated", "animate__zoomOut"],
+              dismiss: {
+                duration: 2000,
+                onScreen: true
+              }
+            })
+          }} className={arrayFavorites.some(drink => drink.idDrink === info.idDrink)? "w-full rounded-xl bg-yellow-600 hover:bg-yellow-300 transition-colors font-bold text-white p-2 uppercase": "w-full rounded-xl bg-green-600 hover:bg-green-300 transition-colors font-bold text-white p-2 uppercase" }>{arrayFavorites.some(drink => drink.idDrink === info.idDrink)? "Delete Favorites" : "Add Favorites"} </button>
           <button onClick={handleClick} className="w-full rounded-xl bg-red-600 hover:bg-red-300 transition-colors font-bold text-white p-2 uppercase">Close</button>
         </div>
       </main>
