@@ -1,3 +1,4 @@
+import Footer from "../../components/Footer"
 import Header from "../../components/Header"
 import Form from "./components/Form"
 import Recipes from "./components/Recipes"
@@ -16,8 +17,8 @@ function Home() {
           <h1 className="text-center font-bold text-3xl mb-12 sm:mb-24">Drinks</h1>
           <Recipes/>
         </section>
-        
       </main>
+      <Footer/>
     </>
   )
 }

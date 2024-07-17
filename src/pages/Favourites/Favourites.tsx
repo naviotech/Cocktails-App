@@ -1,5 +1,6 @@
 import Header from "../../components/Header"
 import RecipesFav from "./components/RecipesFav"
+import Footer from "../../components/Footer"
 
 const Favourites = () => {
   
@@ -13,6 +14,7 @@ const Favourites = () => {
         </section>
         
       </main>
+      <Footer/>
     </>
   )
 }
